@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="header">
+    <h2>Users</h2>
+    <div class="search-container">
+      <input type="text" [formControl]="searchControl" placeholder="Search by name or email..." class="search-input" />
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading users...</p>
+  </div>
+
+  <div *ngIf="error" class="error-card">
+    <p>{{ error }}</p>
+    <button (click)="fetchUsers()" class="retry-btn">Retry</button>
+  </div>
+
+  <div *ngIf="!isLoading && !error" class="table-container">
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Company</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filteredUsers">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.company.name }}</td>
+          <td>
+
+            <a [routerLink]="['/user',user.id]" class="view-btn">View Details</a>
+          </td>
+        </tr>
+        <tr *ngIf="filteredUsers.length === 0">
+          <td colspan="5" class="no-results">No users found matching your search.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
